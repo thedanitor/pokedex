@@ -81,7 +81,7 @@ h1 {
 }
 
 .pokemon .shiny-img-container {
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.1);
     border-radius: 50%;
     width: 120px;
     height: 120px;

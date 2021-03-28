@@ -1,6 +1,56 @@
 const poke_container = document.getElementById("poke-container");
+const nextBtn = document.getElementById("nextBtn");
+const genName = document.querySelector(".gen-name");
+
+let generationIndex = 1;
+
+const generations = {
+  1: {
+    start: 1,
+    end: 151,
+    name: "First",
+  },
+  2: {
+    start: 152,
+    end: 251,
+    name: "Second",
+  },
+  3: {
+    start: 252,
+    end: 386,
+    name: "Third",
+  },
+  4: {
+    start: 387,
+    end: 493,
+    name: "Fourth",
+  },
+  5: {
+    start: 494,
+    end: 649,
+    name: "Fifth",
+  },
+  6: {
+    start: 651,
+    end: 721,
+    name: "Sixth",
+  },
+  7: {
+    start: 724,
+    end: 809,
+    name: "Seventh",
+  },
+  8: {
+    start: 812,
+    end: 898,
+    name: "Eighth",
+  },
+};
+
+
+
 // number of pokemon requesting
-const pokemon_count = 150;
+const pokemon_count = 151;
 // key:value pairs of type: color
 const colors = {
   fire: "#FDDFDF",
@@ -23,7 +73,7 @@ const main_types = Object.keys(colors);
 
 // call getPokemon for every number between 1 and 150. Is asynchronous
 const fetchPokemon = async () => {
-  for (let i = 1; i <= pokemon_count; i++) {
+  for (let i = generations[generationIndex].start; i <= generations[generationIndex].end; i++) {
     await getPokemon(i);
   }
 };
@@ -69,4 +119,17 @@ const createPokemonCard = pokemon => {
   poke_container.appendChild(pokemonEl);
 };
 
+const getGenName = () => {
+    genName.innerHTML = `${generations[generationIndex].name} Generation`
+}
+
+getGenName();
 fetchPokemon();
+
+// listen for click on button 
+nextBtn.addEventListener("click", () => {
+    // increase generation index by 1, change Generation name, fetch pokemon for that gen
+    generationIndex++;
+    getGenName();
+    fetchPokemon();
+})
