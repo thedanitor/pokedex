@@ -8,3 +8,5 @@ This project is from the Day 37 code along video from Udemy's 50 projects in 50 
 
 
 ### Things Learned
+
+* When making a linear gradient it is good practice to set a solid background as well for browsers that don't support gradients.
