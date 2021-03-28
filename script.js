@@ -60,6 +60,9 @@ const createPokemonCard = pokemon => {
         <h3 class="name">${name}</h3>
         <small class="type">Type: <span>${type}</span></small>
     </div>
+    <div class="shiny-img-container">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${pokemon.id}.png" alt="${name}">
+    </div>
     `;
 
   pokemonEl.innerHTML = pokemonInnerHTML;
