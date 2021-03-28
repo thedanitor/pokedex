@@ -31,17 +31,17 @@ const generations = {
     name: "Fifth",
   },
   6: {
-    start: 651,
+    start: 650,
     end: 721,
     name: "Sixth",
   },
   7: {
-    start: 724,
+    start: 722,
     end: 809,
     name: "Seventh",
   },
   8: {
-    start: 812,
+    start: 810,
     end: 898,
     name: "Eighth",
   },
@@ -101,6 +101,7 @@ const createPokemonCard = pokemon => {
   // set background color of div to color, which is according to type
   pokemonEl.style.backgroundColor = color;
 
+
   const pokemonInnerHTML = `
     <div class="img-container">
           <img src="https://pokeres.bastionbot.org/images/pokemon/${pokemon.id}.png" alt="${name}">
@@ -128,7 +129,8 @@ fetchPokemon();
 
 // listen for click on button 
 nextBtn.addEventListener("click", () => {
-    // increase generation index by 1, change Generation name, fetch pokemon for that gen
+    // clear container div, increase generation index by 1, change Generation name, fetch pokemon for that gen
+    poke_container.innerHTML = "";
     generationIndex++;
     getGenName();
     fetchPokemon();
