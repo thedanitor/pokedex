@@ -10,3 +10,4 @@ This project is from the Day 37 code along video from Udemy's 50 projects in 50 
 ### Things Learned
 
 * When making a linear gradient it is good practice to set a solid background as well for browsers that don't support gradients.
+* There is a ```padStart()``` method that pads current string with another string (multiple times if needed) until string reaches given length. Useful for adding 0 to beginning of numbers.
