@@ -3,7 +3,7 @@ const nextBtn = document.getElementById("nextBtn");
 const genName = document.querySelector(".gen-name");
 
 let generationIndex = 1;
-
+// array of generation information
 const generations = {
   1: {
     start: 1,
@@ -47,26 +47,22 @@ const generations = {
   },
 };
 
-
-
-// number of pokemon requesting
-const pokemon_count = 151;
 // key:value pairs of type: color
 const colors = {
-  fire: "#FDDFDF",
-  grass: "#DEFDE0",
-  electric: "#FCF7DE",
-  water: "#DEF3FD",
-  ground: "#f4e7da",
-  rock: "#d5d5d4",
-  fairy: "#fceaff",
-  poison: "#98d7a5",
-  bug: "#f8d5a3",
-  dragon: "#97b3e6",
-  psychic: "#eaeda1",
-  flying: "#F5F5F5",
-  fighting: "#E6E0D4",
-  normal: "#F5F5F5",
+  fire: "#F08030",
+  grass: "#78C850",
+  electric: "#FAE078",
+  water: "#6890F0",
+  ground: "#E0C068",
+  rock: "#B8A038",
+  fairy: "#EE99AC",
+  poison: "#A040A0",
+  bug: "#A8B820",
+  dragon: "#7038F8",
+  psychic: "#F85888",
+  flying: "#A890F0",
+  fighting: "#C03028",
+  normal: "#A8A878",
 };
 // create array of all types (keys) from colors array
 const main_types = Object.keys(colors);
@@ -103,12 +99,15 @@ const createPokemonCard = pokemon => {
 
 
   const pokemonInnerHTML = `
+  <h3 class="name">${name}</h3>
     <div class="img-container">
-          <img src="https://pokeres.bastionbot.org/images/pokemon/${pokemon.id}.png" alt="${name}">
+        <img src="https://pokeres.bastionbot.org/images/pokemon/${pokemon.id}.png" alt="${name}">
     </div>
     <div class="info">
+      <small class="stats"<span>Height: ${pokemon.height}, Weight: ${pokemon.weight}</span></small>
+      <br>
         <span class="number">#${id}</span>
-        <h3 class="name">${name}</h3>
+        <br>
         <small class="type">Type: <span>${type}</span></small>
     </div>
     <div class="shiny-img-container">

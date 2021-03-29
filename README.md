@@ -16,3 +16,14 @@ This project was making a Pokedex using the PokeAPI. I was very excited to use t
 ### Additions
 
 * When cards are hovered the image changes to the shiny sprite version.
+* Changed card colors.
+* Styled cards to make them look more like Pokemon Cards.
+* Added height and weight info.
+
+#### TO DO:
+* Convert units on height and weight. Data is in decimeters and hectograms
+* Make navbar to choose generation
+* Add link to bulbapedia for each pokemon
+* find pics for those that don't load
+
+https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_by_National_Pok%C3%A9dex_number
