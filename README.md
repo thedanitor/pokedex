@@ -24,6 +24,6 @@ This project was making a Pokedex using the PokeAPI. I was very excited to use t
 * Convert units on height and weight. Data is in decimeters and hectograms
 * Make navbar to choose generation
 * Add link to bulbapedia for each pokemon
-* find pics for those that don't load
+* find pics for those that don't load (412, 413, 421, 492, 487, 585, 586, 641, 642, 647, 648, 718, 720, 849, 875, 877, 888, 889, 891, 892, 893, 894, 895, 896, 897, 898) 710, 711 too wide.
 
 https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_by_National_Pok%C3%A9dex_number

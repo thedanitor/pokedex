@@ -30,6 +30,30 @@ h1 {
 
 }
 
+.gen-nav {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.gen-nav ul {
+    list-style-type: none;
+}
+
+.gen-nav ul li {
+    display: inline-block;
+    padding: 5px 10px;
+    border: 5px solid #003A70;
+    color: #FFCB05;
+    font-weight: bold;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.gen-nav ul li.active {
+    border: 5px solid #FFCB05;
+}
+
 .poke-container {
     display: flex;
     flex-wrap: wrap;
@@ -50,7 +74,33 @@ h1 {
     border: 10px solid #FFCB05;
 }
 
+.pokemon .heading {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.pokemon .icon {
+    /* display: inline-block; */
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+}
+
+.pokemon .icon img {
+    height: 120%;
+    /* width: 100%; */
+    border-radius: 50%;
+    object-fit: center;
+    position: absolute;
+     top: -2px;
+    right: -6px;
+}
+
 .pokemon .name {
+    /* display: inline-block; */
     margin: 5px;
     letter-spacing: 1px;
 }
@@ -87,8 +137,6 @@ h1 {
     border-radius: 10px;
     font-size: 0.8em;
 }
-
-
 
 .pokemon .shiny-img-container {
     background-color: rgba(255, 255, 255, 0.6);

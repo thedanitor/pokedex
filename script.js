@@ -1,6 +1,7 @@
 const poke_container = document.getElementById("poke-container");
 const nextBtn = document.getElementById("nextBtn");
 const genName = document.querySelector(".gen-name");
+const navItems = document.querySelectorAll(".gen-nav ul li");
 
 let generationIndex = 1;
 // array of generation information
@@ -49,27 +50,36 @@ const generations = {
 
 // key:value pairs of type: color
 const colors = {
-  fire: "#F08030",
-  grass: "#78C850",
-  electric: "#FAE078",
-  water: "#6890F0",
-  ground: "#E0C068",
-  rock: "#B8A038",
-  fairy: "#EE99AC",
-  poison: "#A040A0",
-  bug: "#A8B820",
-  dragon: "#7038F8",
-  psychic: "#F85888",
-  flying: "#A890F0",
-  fighting: "#C03028",
-  normal: "#A8A878",
+  fire: ["#F08030", "fire"],
+  grass: ["#78C850", "grass"],
+  electric: ["#FAE078", "lightning"],
+  water: ["#6890F0", "water"],
+  ground: ["#E0C068", "fighting"],
+  rock: ["#B8A038", "fighting"],
+  fairy: ["#EE99AC", "psychic"],
+  poison: ["#A040A0", "grass"],
+  bug: ["#A8B820", "grass"],
+  dragon: ["#7038F8", "colorless"],
+  psychic: ["#F85888", "psychic"],
+  flying: ["#A890F0", "colorless"],
+  fighting: ["#C03028", "fighting"],
+  normal: ["#A8A878", "colorless"],
+  dark: ["#705848", "psychic"],
+  ghost: ["#705898", "psychic"],
+  ice: ["#98D8D8", "water"],
+  steel: ["#B8B8D0", "colorless"],
 };
+
 // create array of all types (keys) from colors array
 const main_types = Object.keys(colors);
 
 // call getPokemon for every number between 1 and 150. Is asynchronous
 const fetchPokemon = async () => {
-  for (let i = generations[generationIndex].start; i <= generations[generationIndex].end; i++) {
+  for (
+    let i = generations[generationIndex].start;
+    i <= generations[generationIndex].end;
+    i++
+  ) {
     await getPokemon(i);
   }
 };
@@ -92,27 +102,39 @@ const createPokemonCard = pokemon => {
   const poke_types = pokemon.types.map(type => type.type.name);
   // check to see if type exists and matches main_type
   const type = main_types.find(type => poke_types.indexOf(type) > -1);
-  // use type as index in colors array to get color value
-  const color = colors[type];
+  // use type as index in colors object to get color value as first property
+  const color = colors[type][0];
   // set background color of div to color, which is according to type
   pokemonEl.style.backgroundColor = color;
-
+  // use type as index in colors object to get icon value as second property
+  const iconType = colors[type][1];
+  // if iconType is colorless, the URL has .png instead of webp
+  if (iconType === "colorless") {
+    iconURL = `"./images/${iconType}.png"`;
+  } else {
+    iconURL = `"./images/${iconType}.webp"`;
+  }
 
   const pokemonInnerHTML = `
-  <h3 class="name">${name}</h3>
-    <div class="img-container">
-        <img src="https://pokeres.bastionbot.org/images/pokemon/${pokemon.id}.png" alt="${name}">
+  <div class="heading">
+    <div class="icon">
+      <img src=${iconURL} alt="grass" />
     </div>
-    <div class="info">
-      <small class="stats"<span>Height: ${pokemon.height}, Weight: ${pokemon.weight}</span></small>
-      <br>
-        <span class="number">#${id}</span>
-        <br>
-        <small class="type">Type: <span>${type}</span></small>
-    </div>
-    <div class="shiny-img-container">
-        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${pokemon.id}.png" alt="${name}">
-    </div>
+    <h3 class="name">${name}</h3>
+  </div>
+  <div class="img-container">
+    <img src="https://pokeres.bastionbot.org/images/pokemon/${pokemon.id}.png" alt="${name}">
+  </div>
+  <div class="info">
+    <small class="stats"<span>Height: ${pokemon.height}, Weight: ${pokemon.weight}</span></small>
+    <br>
+    <span class="number">#${id}</span>
+    <br>
+    <small class="type">Type: <span>${type}</span></small>
+  </div>
+  <div class="shiny-img-container">
+    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${pokemon.id}.png" alt="${name}">
+  </div>
     `;
 
   pokemonEl.innerHTML = pokemonInnerHTML;
@@ -120,17 +142,34 @@ const createPokemonCard = pokemon => {
 };
 
 const getGenName = () => {
-    genName.innerHTML = `${generations[generationIndex].name} Generation`
-}
+  genName.innerHTML = `${generations[generationIndex].name} Generation`;
+};
 
 getGenName();
 fetchPokemon();
 
-// listen for click on button 
-nextBtn.addEventListener("click", () => {
-    // clear container div, increase generation index by 1, change Generation name, fetch pokemon for that gen
+navItems.forEach((item, idx) => {
+  item.addEventListener("click", () => {
     poke_container.innerHTML = "";
-    generationIndex++;
+    clearActiveClass();
+    generationIndex = idx + 1;
+    item.classList.add("active");
     getGenName();
     fetchPokemon();
-})
+  });
+});
+
+const clearActiveClass = () => {
+  navItems.forEach(item => {
+    item.classList.remove("active");
+  });
+};
+
+// listen for click on button
+nextBtn.addEventListener("click", () => {
+  // clear container div, increase generation index by 1, change Generation name, fetch pokemon for that gen
+  poke_container.innerHTML = "";
+  generationIndex++;
+  getGenName();
+  fetchPokemon();
+});
