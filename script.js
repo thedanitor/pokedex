@@ -75,6 +75,7 @@ navItems.forEach((item, idx) => {
   // listen for click on nav item
   item.addEventListener("click", () => {
     // clear container div, clear active class on nav item, set generation index to nav item index(+1), change Generation name, fetch pokemon for that gen
+
     poke_container.innerHTML = "";
     clearActiveClass();
     generationIndex = idx + 1;
@@ -114,21 +115,29 @@ const createPokemonCard = async pokemon => {
   const pokemonEl = document.createElement("div");
   pokemonEl.classList.add("pokemon");
   // capitalize first letter of name and add rest of name using slice, then remove anything after "-"
-  const name = (pokemon.name[0].toUpperCase() + pokemon.name.slice(1)).split("-")[0];
+  const name = (pokemon.name[0].toUpperCase() + pokemon.name.slice(1)).split(
+    "-"
+  )[0];
   // convert id to string. Add 0 to beginning until is 3 characters long
   const id = pokemon.id.toString().padStart(3, "0");
   // define height (in decimeters)
   let height = pokemon.height;
   // if height is less than 10 dm (1m), then convert to cm. Otherwise convert to m
-   height < 10 ? height = `${(height * 10)} cm` : height = `${(height * 0.1).toFixed(1)} m`;
+  height < 10
+    ? (height = `${height * 10} cm`)
+    : (height = `${(height * 0.1).toFixed(1)} m`);
   // define weight (in hectograms)
   let weight = pokemon.weight;
   // if wight is less than 100 hg (1 kg), then convert to g. Otherwise convert to kg
-  weight < 10 ? weight = `${weight * 100} g` : weight = `${(weight * 0.1).toFixed(0)} kg`;
+  weight < 10
+    ? (weight = `${weight * 100} g`)
+    : (weight = `${(weight * 0.1).toFixed(0)} kg`);
   // get type name from types object
   const poke_types = pokemon.types.map(type => type.type.name);
   // check to see if type exists and matches main_type
   const type = main_types.find(type => poke_types.indexOf(type) > -1);
+  // capitalize first letter of type and add rest of type using slice
+  const typeName = type[0].toUpperCase() + type.slice(1);
   // use type as index in colors object to get color value as first property
   const color = colors[type][0];
   // set background color of div to color, which is according to type
@@ -137,7 +146,7 @@ const createPokemonCard = async pokemon => {
   const iconType = colors[type][1];
   // if iconType is colorless, the URL has .png instead of webp
   if (iconType === "colorless") {
-    iconURL = `"./images/${iconType}.png"`;
+    let iconURL = `"./images/${iconType}.png"`;
   } else {
     iconURL = `"./images/${iconType}.webp"`;
   }
@@ -169,7 +178,7 @@ const createPokemonCard = async pokemon => {
     <br>
     <span class="number">#${id}</span>
     <br>
-    <small class="type">Type: <span>${type}</span></small>
+    <small class="type"><span>${typeName}</span> type Pok&#x000E9;mon</small>
   </div>
   <div class="shiny-img-container">
     <a href="https://bulbapedia.bulbagarden.net/wiki/${name}_(Pok%C3%A9mon)" target="_blank" rel="noreferrer">
@@ -184,4 +193,3 @@ const createPokemonCard = async pokemon => {
 
 // fetch on page load
 fetchPokemon();
-

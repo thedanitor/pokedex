@@ -1,19 +1,41 @@
 # Pokedex
 
-If deployed: https://thedanitor.github.io/pokedex/
+Complete Pokedex app with all 898 Pokemon, sorted by generation.
 
-This project is from the Day 37 code along video from Udemy's 50 projects in 50 days series focused on web development. I have added some comments to the CSS and JavaScript to make notes to myself why certain choices are being made and what particular lines of code do.
+Deployed: https://thedanitor.github.io/pokedex/
 
-### Overall Impression
+![Pokedex Screenshot](/images/screenshot.png)
 
-This project was making a Pokedex using the PokeAPI. I was very excited to use this API as I had a deep love for all things Pokemon when I was younger. The most interesting part of this project was making the background color of the cards change depending on what type of Pokemon it was. 
+## Table of Contents
 
-### Things Learned
+* [Description](#description)
+* [Technologies Used](#technologies)
+* [Usage](#usage)
+* [Additions](#additions)
+* [Acknowledgements](#acknowledgements)
 
-* When making a linear gradient it is good practice to set a solid background as well for browsers that don't support gradients.
-* There is a ```padStart()``` method that pads current string with another string (multiple times if needed) until string reaches given length. Useful for adding 0 to beginning of numbers.
+## Description
 
-### Additions
+What started out as the Day 37 code along video from Udemy's 50 projects in 50 days series turned into a complete pokedex app. I expanded on the basic functionality of the site by including choices for all generations of Pokemon and making the cards look more like actual Pokemon Cards.
+
+## Technologies
+
+* JavaScript
+* CSS
+* HTML
+* PokeAPI
+* Font Awesome
+
+## Usage
+
+Go to https://thedanitor.github.io/pokedex/ in your browser.\
+Watch as cards are loaded for the first generation of Pokemon.\
+Click on the buttons to load Pokemon from different generations.\
+When at the bottom of the page, click on the arrow to return to the top.
+
+![Pokedex Scroll](/images/pokedex_scroll.gif)
+
+## Additions
 
 * When cards are hovered the image changes to the shiny sprite version.
 * Changed card colors.
@@ -28,4 +50,6 @@ This project was making a Pokedex using the PokeAPI. I was very excited to use t
 * Added button to scroll to top of page.
 * Created a pokeball favicon.
 
-https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_by_National_Pok%C3%A9dex_number
+## Acknowledgements
+
+First off, I would like to give credit to Brad Traversy and https://www.udemy.com/course/50-projects-50-days/ for getting me started with this project. Thanks to https://pokeapi.co/ for the API and https://pokeres.bastionbot.org/ for the sprite images. Also, https://bulbapedia.bulbagarden.net/wiki/Main_Page was a great resource for all things Pokemon.
