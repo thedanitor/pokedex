@@ -20,7 +20,7 @@ This project was making a Pokedex using the PokeAPI. I was very excited to use t
 * Styled cards to make them look more like Pokemon Cards.
 * Added height and weight info.
 * Added a function that checks if the image url exists. If it does not, then the main card image is the sprite version.
-* Created a navbar with links for each generation of pokemon.
+* Created a navbar with buttons for each generation of pokemon.
 
 #### TO DO:
 * Convert units on height and weight. Data is in decimeters and hectograms

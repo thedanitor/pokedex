@@ -1,6 +1,6 @@
 const poke_container = document.getElementById("poke-container");
 const genName = document.querySelector(".gen-name");
-const navItems = document.querySelectorAll(".gen-nav ul li");
+const navItems = document.querySelectorAll(".gen-nav button");
 
 let doneLoading = false;
 let generationIndex = 1;
