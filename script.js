@@ -1,16 +1,21 @@
 const poke_container = document.getElementById("poke-container");
-const nextBtn = document.getElementById("nextBtn");
 const genName = document.querySelector(".gen-name");
 const navItems = document.querySelectorAll(".gen-nav ul li");
 
+let doneLoading = false;
 let generationIndex = 1;
 // array of generation information
 const generations = {
   1: {
-    start: 1,
-    end: 151,
+    start: 880,
+    end: 898,
     name: "First",
   },
+  // 1: {
+  //   start: 1,
+  //   end: 151,
+  //   name: "First",
+  // },
   2: {
     start: 152,
     end: 251,
@@ -82,16 +87,24 @@ const fetchPokemon = async () => {
   ) {
     await getPokemon(i);
   }
+  doneLoading = true;
 };
 // make api call with pokemon id, return json data, and call createPokemonCard with that data
 const getPokemon = async id => {
   const url = `https://pokeapi.co/api/v2/pokemon/${id}`;
   const res = await fetch(url);
   const data = await res.json();
-  createPokemonCard(data);
+  await createPokemonCard(data);
 };
+// checks if image url actually exists
+const getImage = async id => {
+  const url = `https://pokeres.bastionbot.org/images/pokemon/${id}.png`;
+  const res = await fetch(url);
+  return res.status;
+};
+
 // create card with data from api call
-const createPokemonCard = pokemon => {
+const createPokemonCard = async pokemon => {
   const pokemonEl = document.createElement("div");
   pokemonEl.classList.add("pokemon");
   // capitalize first letter of name and add rest of name using slice
@@ -115,6 +128,18 @@ const createPokemonCard = pokemon => {
     iconURL = `"./images/${iconType}.webp"`;
   }
 
+  const imgSrc = `https://pokeres.bastionbot.org/images/pokemon/${pokemon.id}.png`;
+  const regIcon = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`
+  const shinyIcon = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${pokemon.id}.png`;
+  let mainImg;
+  // if imgSrc exists, then use it as main image, otherwise use the shinyIcon as main image
+  // NEED await since returns a promise
+  if ((await getImage(pokemon.id)) === 200) {
+    mainImg = imgSrc;
+  } else {
+    mainImg = regIcon;
+  }
+
   const pokemonInnerHTML = `
   <div class="heading">
     <div class="icon">
@@ -123,7 +148,7 @@ const createPokemonCard = pokemon => {
     <h3 class="name">${name}</h3>
   </div>
   <div class="img-container">
-    <img src="https://pokeres.bastionbot.org/images/pokemon/${pokemon.id}.png" alt="${name}">
+    <img id=${pokemon.id} class="pokemon-img" src=${mainImg} alt="${name}">
   </div>
   <div class="info">
     <small class="stats"<span>Height: ${pokemon.height}, Weight: ${pokemon.weight}</span></small>
@@ -133,11 +158,11 @@ const createPokemonCard = pokemon => {
     <small class="type">Type: <span>${type}</span></small>
   </div>
   <div class="shiny-img-container">
-    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${pokemon.id}.png" alt="${name}">
+    <img src=${shinyIcon} alt="${name}">
   </div>
     `;
 
-  pokemonEl.innerHTML = pokemonInnerHTML;
+  pokemonEl.innerHTML = await pokemonInnerHTML;
   poke_container.appendChild(pokemonEl);
 };
 
@@ -145,11 +170,34 @@ const getGenName = () => {
   genName.innerHTML = `${generations[generationIndex].name} Generation`;
 };
 
+const fixImgs = () => {
+  const mainImgs = document.querySelectorAll("pokemon-img");
+
+  mainImgs.forEach(img => {
+    console.log(img);
+    if (img.naturalHeight !== 0) {
+      return;
+    } else {
+      console.log(`Image not loaded ${pokemon.id}`);
+    }
+  });
+};
+
+// remove active class from all nav items
+const clearActiveClass = () => {
+  navItems.forEach(item => {
+    item.classList.remove("active");
+  });
+};
+
 getGenName();
 fetchPokemon();
 
+// iterate through nav items
 navItems.forEach((item, idx) => {
+  // listen for click on nav item
   item.addEventListener("click", () => {
+    // clear container div, clear active class on nav item, set generation index to nav item index(+1), change Generation name, fetch pokemon for that gen
     poke_container.innerHTML = "";
     clearActiveClass();
     generationIndex = idx + 1;
@@ -157,19 +205,4 @@ navItems.forEach((item, idx) => {
     getGenName();
     fetchPokemon();
   });
-});
-
-const clearActiveClass = () => {
-  navItems.forEach(item => {
-    item.classList.remove("active");
-  });
-};
-
-// listen for click on button
-nextBtn.addEventListener("click", () => {
-  // clear container div, increase generation index by 1, change Generation name, fetch pokemon for that gen
-  poke_container.innerHTML = "";
-  generationIndex++;
-  getGenName();
-  fetchPokemon();
 });
