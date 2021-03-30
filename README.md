@@ -21,10 +21,9 @@ This project was making a Pokedex using the PokeAPI. I was very excited to use t
 * Added height and weight info.
 * Added a function that checks if the image url exists. If it does not, then the main card image is the sprite version.
 * Created a navbar with buttons for each generation of pokemon.
+* Added bulbapedia link to each card when user clicks on shiny sprite.
 
 #### TO DO:
 * Convert units on height and weight. Data is in decimeters and hectograms
-* Add link to bulbapedia for each pokemon
-* Change name font size if too long
 
 https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_by_National_Pok%C3%A9dex_number

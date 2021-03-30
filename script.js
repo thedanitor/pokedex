@@ -1,21 +1,19 @@
 const poke_container = document.getElementById("poke-container");
-const genName = document.querySelector(".gen-name");
 const navItems = document.querySelectorAll(".gen-nav button");
 
-let doneLoading = false;
 let generationIndex = 1;
 // array of generation information
 const generations = {
-  1: {
-    start: 880,
-    end: 898,
-    name: "First",
-  },
   // 1: {
-  //   start: 1,
-  //   end: 151,
+  //   start: 880,
+  //   end: 898,
   //   name: "First",
   // },
+  1: {
+    start: 1,
+    end: 151,
+    name: "First",
+  },
   2: {
     start: 152,
     end: 251,
@@ -78,6 +76,26 @@ const colors = {
 // create array of all types (keys) from colors array
 const main_types = Object.keys(colors);
 
+// remove active class from all nav items
+const clearActiveClass = () => {
+  navItems.forEach(item => {
+    item.classList.remove("active");
+  });
+};
+
+// iterate through nav items
+navItems.forEach((item, idx) => {
+  // listen for click on nav item
+  item.addEventListener("click", () => {
+    // clear container div, clear active class on nav item, set generation index to nav item index(+1), change Generation name, fetch pokemon for that gen
+    poke_container.innerHTML = "";
+    clearActiveClass();
+    generationIndex = idx + 1;
+    item.classList.add("active");
+    fetchPokemon();
+  });
+});
+
 // call getPokemon for every number between 1 and 150. Is asynchronous
 const fetchPokemon = async () => {
   for (
@@ -87,8 +105,8 @@ const fetchPokemon = async () => {
   ) {
     await getPokemon(i);
   }
-  doneLoading = true;
 };
+
 // make api call with pokemon id, return json data, and call createPokemonCard with that data
 const getPokemon = async id => {
   const url = `https://pokeapi.co/api/v2/pokemon/${id}`;
@@ -96,6 +114,7 @@ const getPokemon = async id => {
   const data = await res.json();
   await createPokemonCard(data);
 };
+
 // checks if image url actually exists
 const getImage = async id => {
   const url = `https://pokeres.bastionbot.org/images/pokemon/${id}.png`;
@@ -129,7 +148,7 @@ const createPokemonCard = async pokemon => {
   }
 
   const imgSrc = `https://pokeres.bastionbot.org/images/pokemon/${pokemon.id}.png`;
-  const regIcon = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`
+  const regIcon = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`;
   const shinyIcon = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${pokemon.id}.png`;
   let mainImg;
   // if imgSrc exists, then use it as main image, otherwise use the shinyIcon as main image
@@ -142,10 +161,10 @@ const createPokemonCard = async pokemon => {
 
   const pokemonInnerHTML = `
   <div class="heading">
+    <h3 class="name">${name}</h3>
     <div class="icon">
       <img src=${iconURL} alt="grass" />
     </div>
-    <h3 class="name">${name}</h3>
   </div>
   <div class="img-container">
     <img id=${pokemon.id} class="pokemon-img" src=${mainImg} alt="${name}">
@@ -158,7 +177,9 @@ const createPokemonCard = async pokemon => {
     <small class="type">Type: <span>${type}</span></small>
   </div>
   <div class="shiny-img-container">
-    <img src=${shinyIcon} alt="${name}">
+    <a href="https://bulbapedia.bulbagarden.net/wiki/${name}_(Pok%C3%A9mon)" target="_blank" rel="noreferrer">
+      <img src=${shinyIcon} alt="${name}">
+    </a>
   </div>
     `;
 
@@ -166,43 +187,6 @@ const createPokemonCard = async pokemon => {
   poke_container.appendChild(pokemonEl);
 };
 
-const getGenName = () => {
-  genName.innerHTML = `${generations[generationIndex].name} Generation`;
-};
-
-const fixImgs = () => {
-  const mainImgs = document.querySelectorAll("pokemon-img");
-
-  mainImgs.forEach(img => {
-    console.log(img);
-    if (img.naturalHeight !== 0) {
-      return;
-    } else {
-      console.log(`Image not loaded ${pokemon.id}`);
-    }
-  });
-};
-
-// remove active class from all nav items
-const clearActiveClass = () => {
-  navItems.forEach(item => {
-    item.classList.remove("active");
-  });
-};
-
-getGenName();
+// fetch on page load
 fetchPokemon();
 
-// iterate through nav items
-navItems.forEach((item, idx) => {
-  // listen for click on nav item
-  item.addEventListener("click", () => {
-    // clear container div, clear active class on nav item, set generation index to nav item index(+1), change Generation name, fetch pokemon for that gen
-    poke_container.innerHTML = "";
-    clearActiveClass();
-    generationIndex = idx + 1;
-    item.classList.add("active");
-    getGenName();
-    fetchPokemon();
-  });
-});
