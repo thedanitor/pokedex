@@ -4,50 +4,37 @@ const navItems = document.querySelectorAll(".gen-nav button");
 let generationIndex = 1;
 // array of generation information
 const generations = {
-  // 1: {
-  //   start: 880,
-  //   end: 898,
-  //   name: "First",
-  // },
   1: {
     start: 1,
     end: 151,
-    name: "First",
   },
   2: {
     start: 152,
     end: 251,
-    name: "Second",
   },
   3: {
     start: 252,
     end: 386,
-    name: "Third",
   },
   4: {
     start: 387,
     end: 493,
-    name: "Fourth",
   },
   5: {
     start: 494,
     end: 649,
-    name: "Fifth",
   },
   6: {
     start: 650,
     end: 721,
-    name: "Sixth",
   },
   7: {
     start: 722,
     end: 809,
-    name: "Seventh",
   },
   8: {
     start: 810,
     end: 898,
-    name: "Eighth",
   },
 };
 
@@ -126,10 +113,18 @@ const getImage = async id => {
 const createPokemonCard = async pokemon => {
   const pokemonEl = document.createElement("div");
   pokemonEl.classList.add("pokemon");
-  // capitalize first letter of name and add rest of name using slice
-  const name = pokemon.name[0].toUpperCase() + pokemon.name.slice(1);
+  // capitalize first letter of name and add rest of name using slice, then remove anything after "-"
+  const name = (pokemon.name[0].toUpperCase() + pokemon.name.slice(1)).split("-")[0];
   // convert id to string. Add 0 to beginning until is 3 characters long
   const id = pokemon.id.toString().padStart(3, "0");
+  // define height (in decimeters)
+  let height = pokemon.height;
+  // if height is less than 10 dm (1m), then convert to cm. Otherwise convert to m
+   height < 10 ? height = `${(height * 10)} cm` : height = `${(height * 0.1).toFixed(1)} m`;
+  // define weight (in hectograms)
+  let weight = pokemon.weight;
+  // if wight is less than 100 hg (1 kg), then convert to g. Otherwise convert to kg
+  weight < 10 ? weight = `${weight * 100} g` : weight = `${(weight * 0.1).toFixed(0)} kg`;
   // get type name from types object
   const poke_types = pokemon.types.map(type => type.type.name);
   // check to see if type exists and matches main_type
@@ -170,7 +165,7 @@ const createPokemonCard = async pokemon => {
     <img id=${pokemon.id} class="pokemon-img" src=${mainImg} alt="${name}">
   </div>
   <div class="info">
-    <small class="stats"<span>Height: ${pokemon.height}, Weight: ${pokemon.weight}</span></small>
+    <small class="stats"<span>Height: ${height}, Weight: ${weight}</span></small>
     <br>
     <span class="number">#${id}</span>
     <br>
