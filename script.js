@@ -84,7 +84,7 @@ navItems.forEach((item, idx) => {
   });
 });
 
-// call getPokemon for every number between 1 and 150. Is asynchronous
+// call getPokemon for every number in generation. Then calls checkImages
 const fetchPokemon = async () => {
   for (
     let i = generations[generationIndex].start;
@@ -93,6 +93,7 @@ const fetchPokemon = async () => {
   ) {
     await getPokemon(i);
   }
+  await checkImages();
 };
 
 // make api call with pokemon id, return json data, and call createPokemonCard with that data
@@ -109,6 +110,21 @@ const getImage = async id => {
   const res = await fetch(url);
   return res.status;
 };
+
+// if image link broken, then replace image with sprite
+const checkImages = () => {
+  // get all imgs with class pokemon-img
+  let poke_img = document.querySelectorAll(".pokemon-img");
+  // iterate through each
+  poke_img.forEach(async (img) => {
+    // get img id (which is the pokemon number)
+    let id = img.id;
+    // if response is bad from image fetch, change img src to sprite
+    if (await getImage(id) == 404) {
+      img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
+    }
+  })
+}
 
 // create card with data from api call
 const createPokemonCard = async pokemon => {
@@ -144,24 +160,16 @@ const createPokemonCard = async pokemon => {
   pokemonEl.style.backgroundColor = color;
   // use type as index in colors object to get icon value as second property
   const iconType = colors[type][1];
+  let iconURL;
   // if iconType is colorless, the URL has .png instead of webp
   if (iconType === "colorless") {
-    let iconURL = `"./images/${iconType}.png"`;
+    iconURL = `"./images/${iconType}.png"`;
   } else {
     iconURL = `"./images/${iconType}.webp"`;
   }
 
   const imgSrc = `https://pokeres.bastionbot.org/images/pokemon/${pokemon.id}.png`;
-  const regIcon = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`;
   const shinyIcon = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/${pokemon.id}.png`;
-  let mainImg;
-  // if imgSrc exists, then use it as main image, otherwise use the shinyIcon as main image
-  // NEED await since returns a promise
-  if ((await getImage(pokemon.id)) === 200) {
-    mainImg = imgSrc;
-  } else {
-    mainImg = regIcon;
-  }
 
   const pokemonInnerHTML = `
   <div class="heading">
@@ -171,7 +179,7 @@ const createPokemonCard = async pokemon => {
     </div>
   </div>
   <div class="img-container">
-    <img id=${pokemon.id} class="pokemon-img" src=${mainImg} alt="${name}">
+    <img id=${pokemon.id} class="pokemon-img" src=${imgSrc} alt="${name}">
   </div>
   <div class="info">
     <small class="stats"<span>Height: ${height}, Weight: ${weight}</span></small>
