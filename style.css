@@ -26,7 +26,7 @@ body {
 
 h1 {
   display: block;
-  padding: 10px;
+  padding: 10px 20px;
   border: 5px solid #003a70;
   border-radius: 10px;
   letter-spacing: 3px;
@@ -207,4 +207,33 @@ h1 {
 
 #upBtn:hover {
   color: #3d7dca;
+}
+
+/* ---FOOTER--- */
+
+.foot-link {
+  text-decoration: none;
+  display: inline-block;
+  padding: 10px 20px;
+  text-align: center;
+  margin: 5px;
+  border: 5px solid #003a70;
+  border-radius: 10px;
+  color: #ffcb05;
+  background-color: rgba(0, 0, 0, 0.2);
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.foot-link:active {
+  border: 5px solid #ffcb05;
+}
+
+.foot-link:hover {
+  background-color: #3d7dca;
+}
+
+.foot-link:focus {
+  outline: none;
+  background-color: #3d7dca;
 }

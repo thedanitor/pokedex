@@ -74,8 +74,8 @@ const clearActiveClass = () => {
 navItems.forEach((item, idx) => {
   // listen for click on nav item
   item.addEventListener("click", () => {
-    // clear container div, clear active class on nav item, set generation index to nav item index(+1), change Generation name, fetch pokemon for that gen
-
+    // clear container div, clear active class on nav item, set generation index to nav item index(+1), 
+    // change Generation name, fetch pokemon for that gen
     poke_container.innerHTML = "";
     clearActiveClass();
     generationIndex = idx + 1;
@@ -125,6 +125,7 @@ const checkImages = () => {
     }
   })
 }
+
 
 // create card with data from api call
 const createPokemonCard = async pokemon => {
